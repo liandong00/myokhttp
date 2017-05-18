@@ -33,6 +33,10 @@ public final class Network {
         Network.config = config;
     }
 
+    public static NetWorkConfigInfo getConfig() {
+        return config;
+    }
+
     public static RequestType getRequestType() {
         return requestType;
     }

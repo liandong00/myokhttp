@@ -68,13 +68,5 @@ public class CacheBean {
         this.timeStamp = timeStamp;
     }
 
-    public static int getHashCode(String... parames) {
-        StringBuilder sb = new StringBuilder();
-        for (String parame :
-                parames) {
-            sb.append(parame);
-        }
-        return sb.toString().hashCode();
-//        return hashCode;
-    }
+
 }

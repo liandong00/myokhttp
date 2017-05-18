@@ -31,13 +31,15 @@ public class NetworkCacheInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
+        String body = Utils.requestBodyToStr(request.body());
+        Logger.i("请求URL:%s,请求体:%s", request.url().toString(), body);
         if (!TextUtils.isEmpty(Global.getUserUnique())) {
             Response originalResponse = chain.proceed(request);
             if (originalResponse.code() == 200) {
                 String value = originalResponse.body().string();
                 CodeMsgBean bean = GsonUtil.getGsonInstance().fromJson(value, CodeMsgBean.class);
                 if (bean.getCode() == 0) { //如果请求结果是成功的就缓存数据
-                    String body = Utils.requestBodyToStr(request.body());
+//                    String body = Utils.requestBodyToStr(request.body());
                     Logger.i("请求URL:%s,请求体:%s", request.url().toString(), body);
                     cacheData(request.url().toString(), body, value);
                 }
@@ -57,17 +59,17 @@ public class NetworkCacheInterceptor implements Interceptor {
      *
      * @param url
      * @param body
-     * @param value
+     * @param data
      */
-    private void cacheData(final String url, final String body, final String value) {
+    private void cacheData(final String url, final String body, final String data) {
         Observable
                 .create(new ObservableOnSubscribe<String>() {
                     @Override
                     public void subscribe(ObservableEmitter<String> e) throws Exception {
                         boolean isCache = filter(url);
                         if (isCache) {
-                            int hashCode = CacheBean.getHashCode(url, body);
-                            CacheBean cacheBean = new CacheBean(Global.getUserUnique(),hashCode, value);
+                            int hashCode = Utils.getHashCode(url, body);
+                            CacheBean cacheBean = new CacheBean(Global.getUserUnique(),hashCode, data);
                             CacheDao.getInstance(Global.getmContext()).add(cacheBean);
                         }
                         e.onNext("");
