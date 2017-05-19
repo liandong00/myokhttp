@@ -41,6 +41,10 @@ public abstract class BaseHttpResultSubscriber<T>  implements Observer<T> {
 
     @Override
     public void onError(Throwable e) {
+        if (loadingCallback != null) {
+            //加载异常
+            loadingCallback.loadError(e);
+        }
         _onError(e);
     }
 
