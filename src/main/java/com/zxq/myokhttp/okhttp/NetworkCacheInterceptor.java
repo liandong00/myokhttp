@@ -4,6 +4,7 @@ package com.zxq.myokhttp.okhttp;
 import android.text.TextUtils;
 
 import com.orhanobut.logger.Logger;
+import com.zxq.myokhttp.Network;
 import com.zxq.myokhttp.db.CacheDao;
 import com.zxq.myokhttp.entity.CacheBean;
 import com.zxq.myokhttp.entity.CodeMsgBean;
@@ -92,7 +93,15 @@ public class NetworkCacheInterceptor implements Interceptor {
      * @return
      */
     private boolean filter(String url) {
-        return true;
+        String[] cacheUrl = Network.getConfig().cacheUrl();
+        for (String cache : cacheUrl) {
+            if (!cache.equalsIgnoreCase(url)) {
+
+            } else {
+                return true;
+            }
+        }
+            return false;
     }
 
 

@@ -30,6 +30,8 @@ public interface NetWorkConfigInfo {
      */
     int getWRITE_TIMEOUT();
 
+    String[] cacheUrl();
+
     Interceptor getDefauleInterceptor();
     Interceptor getTokenInterceptor();
     Interceptor getReTokenInterceptor();
