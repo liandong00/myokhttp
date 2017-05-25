@@ -16,6 +16,4 @@ public class HttpEntity<T> extends CodeMsgBean {
         this.data = data;
     }
 
-
-
 }

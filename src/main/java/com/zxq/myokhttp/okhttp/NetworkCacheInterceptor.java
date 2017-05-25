@@ -32,26 +32,29 @@ public class NetworkCacheInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        String body = Utils.requestBodyToStr(request.body());
-        Logger.i("请求URL:%s,请求体:%s", request.url().toString(), body);
-        if (!TextUtils.isEmpty(Global.getUserUnique())) {
-            Response originalResponse = chain.proceed(request);
-            if (originalResponse.code() == 200) {
-                String value = originalResponse.body().string();
-                CodeMsgBean bean = GsonUtil.getGsonInstance().fromJson(value, CodeMsgBean.class);
-                if (bean.getCode() == 0) { //如果请求结果是成功的就缓存数据
+        Logger.i("请求URL:%s", request.url().toString());
+        if (request.body() != null) {
+            String body = Utils.requestBodyToStr(request.body());
+            if (!TextUtils.isEmpty(Global.getUserUnique())) {
+                Response originalResponse = chain.proceed(request);
+                if (originalResponse.code() == 200) {
+                    String value = originalResponse.body().string();
+                    CodeMsgBean bean = GsonUtil.getGsonInstance().fromJson(value, CodeMsgBean.class);
+                    if (bean.getCode() == 0) { //如果请求结果是成功的就缓存数据
 //                    String body = Utils.requestBodyToStr(request.body());
-                    Logger.i("请求URL:%s,请求体:%s", request.url().toString(), body);
-                    cacheData(request.url().toString(), body, value);
+//                        Logger.i("请求URL:%s,请求体:%s", request.url().toString(), body);
+                        cacheData(request.url().toString(), body, value);
+                    }
+                    Logger.json(value);
+                    // 这里值得注意。由于前面value.bytes()把响应流读完并关闭了，所以这里需要重新生成一个response，否则数据就无法正常解析了
+                    originalResponse = originalResponse.newBuilder()
+                            .body(ResponseBody.create(null, value))
+                            .build();
                 }
-                Logger.json(value);
-                // 这里值得注意。由于前面value.bytes()把响应流读完并关闭了，所以这里需要重新生成一个response，否则数据就无法正常解析了
-                originalResponse = originalResponse.newBuilder()
-                        .body(ResponseBody.create(null, value))
-                        .build();
                 return originalResponse;
             }
         }
+
         return chain.proceed(request);
     }
 

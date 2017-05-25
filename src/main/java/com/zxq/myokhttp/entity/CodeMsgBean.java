@@ -1,10 +1,13 @@
 package com.zxq.myokhttp.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * CodeMsg
  */
 public class CodeMsgBean {
     private int code;
+    @SerializedName("message")
     private String msg;
     private int max;
     public int getMax() {
