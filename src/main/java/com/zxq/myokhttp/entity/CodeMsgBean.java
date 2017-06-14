@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  */
 public class CodeMsgBean {
     private int code;
-    @SerializedName("message")
+    @SerializedName(value = "msg", alternate = {"msg", "message"})
     private String msg;
     private int max;
     public int getMax() {

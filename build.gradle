@@ -13,7 +13,7 @@ android {
         minSdkVersion 11
         targetSdkVersion 25
         versionCode 4
-        versionName "1.0.4"
+        versionName "1.0.5"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -50,7 +50,7 @@ publish {
     userOrg = 'zxq'//bintray.com用户名
     groupId = 'com.zxq'//jcenter上的路径
     artifactId = 'myokhttp'//项目名称
-    publishVersion = '1.0.4'//版本号
-    desc = '解决缓存异常,Token保留问题'//描述，不重要
+    publishVersion = '1.0.6'//版本号
+    desc = '修复返回结果多个结果'//描述，不重要
     website = 'https://github.com/zxq/myokhttp'//网站，不重要；尽量模拟github上的地址，例如我这样的；当然你有地址最好了
 }
