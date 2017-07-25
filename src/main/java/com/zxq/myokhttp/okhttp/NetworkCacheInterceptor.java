@@ -44,6 +44,8 @@ public class NetworkCacheInterceptor implements Interceptor {
 //                    String body = Utils.requestBodyToStr(request.body());
 //                        Logger.i("请求URL:%s,请求体:%s", request.url().toString(), body);
                         cacheData(request.url().toString(), body, value);
+                    } else {
+                        value.replace("[]", null);
                     }
                     Logger.json(value);
                     // 这里值得注意。由于前面value.bytes()把响应流读完并关闭了，所以这里需要重新生成一个response，否则数据就无法正常解析了
