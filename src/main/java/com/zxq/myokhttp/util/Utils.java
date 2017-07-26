@@ -1,7 +1,5 @@
 package com.zxq.myokhttp.util;
 
-import com.orhanobut.logger.Logger;
-import com.zxq.myokhttp.NetBuilder;
 import com.zxq.myokhttp.Network;
 
 import java.io.IOException;
@@ -36,45 +34,12 @@ public class Utils {
      * 通过方法名请求体得到hashCode
      * @param shortUrl
      * @param requestBody
-     * @param <T>
      * @return
      */
-    public static <T> int getHashCode(String shortUrl,RequestBody requestBody) {
+    public static  int getHashCode(String shortUrl,RequestBody requestBody) {
         String baseUrl = Network.getConfig().getBaseUrl();
-        Class clazz = NetBuilder.config.getClazz();
-//        String url = getMethodPostValue(clazz, methodName, parameterTypes);
         String body=requestBodyToStr(requestBody);
-        StringBuilder sb = new StringBuilder();
-        sb.append(baseUrl);
-        sb.append(shortUrl);
-        sb.append(body);
-        return sb.toString().hashCode();
-    }
-
-    /**
-     * 通过方法名,请求参数得到 hashCode
-     * @param shortUrl
-     * @param parames
-     * @param <T>
-     * @return
-     */
-    public static <T> int getHashCode(String shortUrl,String[] parames) {
-        String baseUrl = Network.getConfig().getBaseUrl();
-        Class clazz = NetBuilder.config.getClazz();
-//        String url = getMethodPostValue(clazz, methodName, parameterTypes);
-        StringBuilder sb = new StringBuilder();
-        sb.append(baseUrl);
-        sb.append(shortUrl);
-        if (parames != null) {
-            for (int i=0;i<parames.length;i++) {
-                sb.append(parames[i]);
-                if (i != parames.length - 1) {
-                    sb.append("&");
-                }
-            }
-        }
-        Logger.d("URL拼接:%s", sb.toString());
-        return sb.toString().hashCode();
+        return  getHashCode(baseUrl, shortUrl, body);
     }
 
     /**
