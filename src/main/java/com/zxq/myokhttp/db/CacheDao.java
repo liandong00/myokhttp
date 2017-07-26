@@ -64,17 +64,18 @@ public class CacheDao {
 
     /**
      * 添加用户选择的词库数据
-     * @param entity
+     * @param userId
+     * @param hastCode
      */
-    public void del(CacheBean entity) {
+    public void del(int userId,int hastCode) {
         try {
 //            CacheBean cacheBean= findByData(entity);
 
             DeleteBuilder<CacheBean, Integer> deleteBuilder = cacheDao.deleteBuilder();
             deleteBuilder .where()
-                    .eq("userPhone", entity.getData())
+                    .eq("userPhone", userId)
                     .and()
-                    .eq("hashCode", entity.getHashCode());
+                    .eq("hashCode", hastCode);
             deleteBuilder.delete();
 
 
